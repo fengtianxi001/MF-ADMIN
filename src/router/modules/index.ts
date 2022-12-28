@@ -1,8 +1,9 @@
 import table from "./table";
+import form from "./form";
 import map from "./map";
 // import three from "./three";
-// import form from "./form";
+
 // import vr from "./vr";
 // import visualization from "./visualization";
 
-export default [...table, ...map];
+export default [...table, ...form, ...map];

@@ -1,7 +1,7 @@
 <template>
   <a-menu
     class="layout-content-menu"
-    :level-indent="0"
+    :level-indent="10"
     :selected-keys="selectedKey"
     :style="{ width: '190px' }"
     show-collapse-button

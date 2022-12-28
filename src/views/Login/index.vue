@@ -11,7 +11,11 @@
             <IconUser />
           </template>
         </a-input>
-        <a-input-password v-model="password" allow-clear placeholder="请输入密码">
+        <a-input-password
+          v-model="password"
+          allow-clear
+          placeholder="请输入密码"
+        >
           <template #prefix>
             <IconLock />
           </template>
@@ -22,7 +26,11 @@
               <IconRobot />
             </template>
           </a-input>
-          <img :src="caprchaSrc" class="container-main-code-vaild" @click="captchaRefresh" />
+          <img
+            :src="caprchaSrc"
+            class="container-main-code-vaild"
+            @click="captchaRefresh"
+          />
         </div>
         <a-button type="primary" @click="onLogin">登录</a-button>
       </div>
@@ -30,10 +38,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { IconUser, IconLock, IconRobot } from '@arco-design/web-vue/es/icon';
-import useLogin from './hooks/useLogin';
+import { IconUser, IconLock, IconRobot } from "@arco-design/web-vue/es/icon";
+import useLogin from "./hooks/useLogin";
 
-const { account, password, captcha, caprchaSrc, onLogin, captchaRefresh } = useLogin();
+const { account, password, captcha, caprchaSrc, onLogin, captchaRefresh } =
+  useLogin();
 </script>
 <style lang="scss" scoped>
 .page {

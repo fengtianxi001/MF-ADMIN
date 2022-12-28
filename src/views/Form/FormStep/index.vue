@@ -1,4 +1,4 @@
-<template>base</template>
+<template></template>
 <script setup lang="ts">
 interface PropsType {}
 const props = defineProps<PropsType>();

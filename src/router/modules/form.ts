@@ -1,4 +1,4 @@
-import { IconApps } from "@arco-design/web-vue/es/icon";
+import { IconApps, IconDragDot } from "@arco-design/web-vue/es/icon";
 import { RouterView } from "vue-router";
 import type { routesType } from "../types";
 
@@ -7,7 +7,7 @@ const form: routesType[] = [
     path: "/form",
     name: "form",
     meta: {
-      locale: "表单",
+      locale: "系统表单",
       icon: IconApps,
     },
     component: RouterView,
@@ -16,19 +16,19 @@ const form: routesType[] = [
         path: "/form/base",
         name: "formBase",
         meta: {
-          locale: "基本表单",
-          icon: IconApps,
+          locale: "基础表单",
+          icon: IconDragDot,
         },
-        component: () => import("@/views/Table/index.vue"),
+        component: () => import("@/views/Form/FormBase/index.vue"),
       },
       {
         path: "/form/step",
         name: "formStep",
         meta: {
-          locale: "分布表单",
-          icon: IconApps,
+          locale: "分步表单",
+          icon: IconDragDot,
         },
-        component: () => import("@/views/Table/index.vue"),
+        component: () => import("@/views/Form/FormStep/index.vue"),
       },
     ],
   },
