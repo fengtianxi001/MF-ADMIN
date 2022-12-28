@@ -1,0 +1,74 @@
+.arco-layout-sider-light {
+  box-shadow: unset;
+  border-right: 1px solid var(--color-border);
+}
+.arco-table-tr {
+  &:last-child {
+    .arco-table-td {
+      border: none;
+    }
+  }
+}
+.arco-menu {
+  .arco-menu-item {
+    &.arco-menu-selected {
+      background-color: rgb(var(--primary-6)) !important;
+      .arco-menu-icon svg {
+        color: #fff;
+      }
+      .arco-menu-title {
+        color: #fff;
+      }
+    }
+  }
+  .arco-menu-inline-header.arco-menu-selected {
+    background-color: rgb(var(--arcoblue-1));
+  }
+}
+.arco-modal-mask {
+  background-color: #1d212947;
+}
+
+//界面引导
+.driver-stage-no-animation {
+  outline-color: var(--color-mask-bg) !important;
+}
+.scoped-class {
+  padding: 10px !important;
+  border-radius: 0 !important;
+  .driver-popover-title {
+    position: relative;
+    display: flex !important;
+    align-items: center !important;
+    font-size: 15px !important;
+    margin-bottom: 6px !important;
+    padding-left: 8px;
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 4px;
+      height: 16px;
+      background-color: rgb(var(--primary-6));
+    }
+  }
+  .driver-popover-description {
+    font-size: 13px !important;
+    color: var(--color-text-secondary) !important;
+  }
+  .driver-close-btn {
+    display: none !important;
+  }
+  .driver-btn-group {
+    button {
+      border-radius: 0 !important;
+      color: #fff !important;
+      background-color: rgb(var(--primary-6)) !important;
+      text-shadow: unset !important;
+      border: unset !important;
+      &.driver-disabled {
+        background-color: var(--color-primary-light-3) !important;
+      }
+    }
+  }
+}
