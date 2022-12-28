@@ -11,10 +11,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useMap } from '@/hooks';
-import { onMounted, provide, ref } from 'vue';
-import ControlLayer from './components/Control/ControlLayer.vue';
-import ControlCoordPicker from './components/Control/ControlCoordPicker.vue';
+import { useMap } from "@/hooks";
+import { onMounted, provide, ref } from "vue";
+import ControlLayer from "./components/Control/ControlLayer.vue";
+import ControlCoordPicker from "./components/Control/ControlCoordPicker.vue";
 
 const container = ref<HTMLElement | null>(null);
 const mapInstance = useMap(container, {
@@ -22,13 +22,13 @@ const mapInstance = useMap(container, {
   zoom: 13,
   zoomControl: false,
   attributionControl: false,
-  tile: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+  tile: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
 });
 
 onMounted(() => {
   mapInstance.initialize();
 });
-provide('mapInstance', mapInstance);
+provide("mapInstance", mapInstance);
 </script>
 <style lang="scss" scoped>
 .base-map {

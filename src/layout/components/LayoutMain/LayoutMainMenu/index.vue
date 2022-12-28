@@ -5,6 +5,7 @@
     :selected-keys="selectedKey"
     :style="{ width: '190px' }"
     show-collapse-button
+    auto-open
     @menu-item-click="onMenuItemClick"
   >
     <LayoutMainMenuItem :routes="MENU_LIST" />

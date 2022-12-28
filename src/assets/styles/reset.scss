@@ -28,6 +28,58 @@
 .arco-modal-mask {
   background-color: #1d212947;
 }
+.arco-modal {
+  border-radius: 0;
+  .arco-modal-body {
+    padding: 12px;
+  }
+  .arco-modal-footer {
+    padding: 12px;
+  }
+}
+.arco-popover-popup-content {
+  padding: 10px;
+  font-size: 0;
+  .arco-popover-content {
+    margin-top: 0px;
+  }
+}
+.leaflet-div-icon {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.marker-label {
+  .arco-trigger-content {
+    padding: 10px;
+    .arco-popover-title {
+      font-size: 14px;
+      font-weight: bold;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 3px;
+        height: 14px;
+        background-color: #2d5cf6;
+      }
+    }
+  }
+}
+.arco-spin {
+  box-sizing: border-box;
+}
+.arco-spin-mask {
+  width: 100%;
+}
 
 //界面引导
 .driver-stage-no-animation {

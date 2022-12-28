@@ -9,6 +9,7 @@ import "@/assets/styles/initialize.scss";
 import "@/assets/styles/reset.scss";
 import "@arco-design/web-vue/dist/arco.less";
 import "@/mock";
+import "@/assets/styles/global.scss";
 const app = createApp(App);
 app.use(createPinia());
 app.use(router);

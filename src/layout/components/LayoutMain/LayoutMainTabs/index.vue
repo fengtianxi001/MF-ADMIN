@@ -66,6 +66,7 @@ const list = computed(() => {
   position: fixed;
   top: calc(1px + #{$layout_header_height});
   left: 0;
+  z-index: 999;
   width: 100%;
   height: 34px;
   background-color: var(--color-bg-2);

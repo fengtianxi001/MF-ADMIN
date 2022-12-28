@@ -21,50 +21,44 @@
 import image from "@/assets/images/amico.png";
 </script>
 <style lang="scss">
-.page-container {
+.page-content {
+  @include flex($justify: center, $align: center);
   width: 100%;
   height: 100%;
-  padding: 10px;
+  background-color: var(--color-bg-2);
+  padding: 20px;
   box-sizing: border-box;
-  .page-content {
-    @include flex($justify: center, $align: center);
-    width: 100%;
-    height: 100%;
-    background-color: var(--color-bg-2);
-    padding: 20px;
-    box-sizing: border-box;
-    .main {
+  .main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    .info {
+      width: 400px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      align-items: center;
-      .info {
-        width: 400px;
-        display: flex;
-        flex-direction: column;
-        // align-items: center;
+      flex-direction: column;
+      // align-items: center;
+      text-align: left;
+      h1 {
+        font-size: 3.5rem;
+        font-weight: 500;
+        font-family: "Rubik", sans-serif;
+        margin: 15px 0;
+      }
+      h2 {
+        font-size: 18px;
+        font-weight: 500;
         text-align: left;
-        h1 {
-          font-size: 3.5rem;
-          font-weight: 500;
-          font-family: "Rubik", sans-serif;
-          margin: 15px 0;
-        }
-        h2 {
-          font-size: 18px;
-          font-weight: 500;
-          text-align: left;
-          margin: 10px 0;
-        }
-        h3 {
-          color: #9b9bae !important;
-          line-height: 26px;
-        }
+        margin: 10px 0;
+      }
+      h3 {
+        color: #9b9bae !important;
+        line-height: 26px;
       }
     }
-    img {
-      width: 40%;
-    }
+  }
+  img {
+    width: 40%;
   }
 }
 </style>

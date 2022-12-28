@@ -20,9 +20,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useCollaspeDom } from '@/hooks';
-import { computed } from 'vue';
-import { ref } from 'vue';
+import { useCollaspeDom } from "@/hooks";
+import { computed } from "vue";
+import { ref } from "vue";
 
 interface PropsType {
   title: string;
@@ -32,7 +32,7 @@ interface PropsType {
 const props = defineProps<PropsType>();
 const container = ref();
 const { icon, collapsed, toggle } = useCollaspeDom(container);
-const style = computed(() => ({ width: props.width || 'auto' }));
+const style = computed(() => ({ width: props.width || "auto" }));
 </script>
 <style lang="scss" scoped>
 .base-collapse {
@@ -50,12 +50,12 @@ const style = computed(() => ({ width: props.width || 'auto' }));
     color: var(--color-text-1);
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       left: 10px;
       width: 3px;
       height: 14px;
-      background-color: $main-color;
+      background-color: rgb(var(--primary-6));
     }
   }
   .collapse-content {

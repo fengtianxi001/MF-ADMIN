@@ -4,6 +4,7 @@
       class="table-filter"
       v-model="form"
       layout="inline"
+      label-align="left"
       v-bind="$attrs"
       ref="formRef"
       :configs="configs"
@@ -26,12 +27,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useLoading } from '@/hooks';
-import { isFunction } from 'lodash';
-import { computed, ref, type StyleValue } from 'vue';
-import { IconSearch, IconRefresh } from '@arco-design/web-vue/es/icon';
-import type { BaseFormConfigType } from '@/components/BaseForm/types';
-import BaseForm from '@/components/BaseForm/index.vue';
+import { useLoading } from "@/hooks";
+import { isFunction } from "lodash";
+import { computed, ref, type StyleValue } from "vue";
+import { IconSearch, IconRefresh } from "@arco-design/web-vue/es/icon";
+import type { BaseFormConfigType } from "@/components/BaseForm/types";
+import BaseForm from "@/components/BaseForm/index.vue";
 // import BaseButton from '@/components/BaseButton/index.vue';
 
 interface PropsType {
@@ -41,14 +42,22 @@ interface PropsType {
   grid?: number;
 }
 const props = defineProps<PropsType>();
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(["update:modelValue"]);
 const form = ref({});
 const formRef = ref();
-const { loading: searchLoading, openLoading: openSearchLoading, closeLoading: closeSearchLoading } = useLoading(false);
-const { loading: resetLoading, openLoading: openResetLoading, closeLoading: closeResetLoading } = useLoading(false);
+const {
+  loading: searchLoading,
+  openLoading: openSearchLoading,
+  closeLoading: closeSearchLoading,
+} = useLoading(false);
+const {
+  loading: resetLoading,
+  openLoading: openResetLoading,
+  closeLoading: closeResetLoading,
+} = useLoading(false);
 
 const onQuery = async () => {
-  emit('update:modelValue', form.value);
+  emit("update:modelValue", form.value);
   if (isFunction(props.query)) {
     openSearchLoading();
     await props.query({
@@ -60,7 +69,7 @@ const onQuery = async () => {
 
 const onReset = async () => {
   formRef.value.resetFields({});
-  emit('update:modelValue', form.value);
+  emit("update:modelValue", form.value);
   if (isFunction(props.query)) {
     openResetLoading();
     await props.query({
@@ -71,7 +80,7 @@ const onReset = async () => {
 };
 const btnStyle = computed<StyleValue>(() => {
   const grid = props.grid || 3;
-  return props.configs.length > grid ? { flexDirection: 'column' } : {};
+  return props.configs.length > grid ? { flexDirection: "column" } : {};
 });
 const filterStyle = computed<StyleValue>(() => {
   const grid = props.grid || 3;

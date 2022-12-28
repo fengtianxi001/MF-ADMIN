@@ -2,31 +2,18 @@
   <div class="page-container">
     <BaseCard title="基本表格">
       <BaseTableFilter
-        :configs="filterConfig"
         v-model="search"
-        :query="run"
         label-width="60px"
-        label-align="left"
+        :configs="tableFilter"
+        :query="run"
       />
-      <a-space wrap>
-        <a-button
-          type="primary"
-          status="danger"
-          :disabled="size(selected) === 0"
-          @click="tableOperate.onDelect(selected)"
-        >
-          批量删除
-        </a-button>
-        <a-button type="primary" @click="tableOperate.onCreate"
-          >新增报告</a-button
-        >
-      </a-space>
+      <BaseButtonGroup :data="tableButton" style="margin-bottom: 10px" />
       <BaseTable
         v-model:selectedKeys="selected"
         row-key="id"
         :selection="true"
         :loading="loading"
-        :columns="columns"
+        :columns="tableColumns"
         :data="dataSource"
         :pagination="pagination"
       />
@@ -36,12 +23,13 @@
 <script setup lang="tsx">
 import { size } from "lodash";
 import { useTable } from "@/hooks";
-import { reactive } from "vue";
-import { Button, ButtonGroup, Tag } from "@arco-design/web-vue";
+import { computed, reactive } from "vue";
+import { Tag } from "@arco-design/web-vue";
 import { IconBranch } from "@arco-design/web-vue/es/icon";
 import { BreakdownPage, type BreakdownPageType } from "@/api/Breakdown";
 import type { TableColumnDataType } from "@/hooks/useTable/types";
 import BaseCard from "@/components/BaseCard/index.vue";
+import BaseButtonGroup from "@/components/BaseButtonGroup/index.vue";
 import BaseTableFilter from "@/components/BaseTableFilter/index.vue";
 import BaseTable from "@/components/BaseTable/index.vue";
 import BaseUserCard from "@/components/BaseUserCard/index.vue";
@@ -49,7 +37,8 @@ import BaseConfirm from "@/components/BaseConfirm";
 import Modal from "@/components/BaseModal";
 import Edit from "./Edit.vue";
 
-const filterConfig = reactive([
+//表格筛选配置项
+const tableFilter = reactive([
   {
     name: "theme",
     component: "Input",
@@ -95,8 +84,23 @@ const filterConfig = reactive([
     },
   },
 ]);
-
-const columns: TableColumnDataType<BreakdownPageType>[] = [
+//表格按钮配置项
+const tableButton = computed(() => [
+  {
+    type: "primary",
+    status: "danger",
+    disabled: size(selected.value) === 0,
+    onClick: () => tableOperate.onDelect(selected.value),
+    text: "批量删除",
+  },
+  {
+    type: "primary",
+    onClick: tableOperate.onCreate,
+    text: "新增报告",
+  },
+]);
+//表格列配置项
+const tableColumns: TableColumnDataType<BreakdownPageType>[] = [
   {
     title: "主题",
     width: 200,
@@ -130,26 +134,28 @@ const columns: TableColumnDataType<BreakdownPageType>[] = [
     title: "操作",
     align: "center",
     width: 150,
-    render: ({ record }) => (
-      <ButtonGroup>
-        <Button type="text" onClick={() => tableOperate.onEdit(record)}>
-          编辑
-        </Button>
-        <Button
-          type="text"
-          status="danger"
-          onClick={() => tableOperate.onDelect([record.id])}
-        >
-          删除
-        </Button>
-      </ButtonGroup>
-    ),
+    render: ({ record }) => {
+      const configs = [
+        {
+          type: "text",
+          text: "编辑",
+          onClick: () => tableOperate.onEdit(record),
+        },
+        {
+          type: "text",
+          text: "删除",
+          status: "danger",
+          onClick: () => tableOperate.onDelect([record.id]),
+        },
+      ];
+      return <BaseButtonGroup data={configs}></BaseButtonGroup>;
+    },
   },
 ];
-
+//获取表格数据
 const { selected, loading, dataSource, search, pagination, run } =
   useTable<BreakdownPageType>(BreakdownPage);
-
+//表格数据操作
 const tableOperate = {
   onDelect: (ids: Array<string>) => {
     const content =
@@ -167,11 +173,11 @@ const tableOperate = {
   },
   onCreate: async () => {
     const result = await Modal(Edit, { mode: "create" });
-    if (result) run();
+    result && run();
   },
   onEdit: async (record: any) => {
     const result = await Modal(Edit, { mode: "edit", record });
-    console.log("result", result);
+    result && run();
   },
 };
 </script>

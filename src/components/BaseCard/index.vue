@@ -1,10 +1,14 @@
 <template>
   <Card class="base-card" v-bind="$attrs">
-    <slot />
+    <template #extra>
+      <slot name="extra"></slot>
+    </template>
+
+    <slot></slot>
   </Card>
 </template>
 <script setup lang="ts">
-import { Card } from '@arco-design/web-vue';
+import { Card } from "@arco-design/web-vue";
 </script>
 <style lang="scss" scoped>
 .base-card {
