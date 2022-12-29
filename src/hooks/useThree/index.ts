@@ -36,6 +36,7 @@ function useThree() {
     );
   });
   const render = () => {
+    control.value?.update();
     const delta = new THREE.Clock().getDelta();
     renderer.value!.render(scene.value!, camera.value!);
     const mixerUpdateDelta = clock.getDelta();

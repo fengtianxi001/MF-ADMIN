@@ -10,21 +10,23 @@ import BaseCard from "@/components/BaseCard/index.vue";
 import { useThree } from "@/hooks";
 import * as THREE from "three";
 import { onMounted, onUnmounted } from "vue";
-const { element, scene, camera, renderer, renderMixins, render } = useThree();
+const { element, scene, camera, renderer, renderMixins, control, render } =
+  useThree();
+
 onMounted(() => {
   renderer.value.setClearColor(0x000000, 0);
   camera.value.position.set(0, 0, 100);
+  control.value.update();
   const axesHelper = new THREE.AxesHelper(50);
   scene.value.add(axesHelper);
-  var geometry = new THREE.BoxGeometry(10, 10, 10);
-  var meterial = new THREE.MeshBasicMaterial({
-    color: 0x00ff00,
+  const geometry = new THREE.BoxGeometry(10, 10, 10);
+  const meterial = new THREE.MeshBasicMaterial({
+    color: 0x3473ff,
     wireframe: true,
   });
-  var cube = new THREE.Mesh(geometry, meterial);
+  const cube = new THREE.Mesh(geometry, meterial);
   scene.value.add(cube);
   renderMixins.set("rotate", () => {
-    console.log("inter");
     cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
   });
