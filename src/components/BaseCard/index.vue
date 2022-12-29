@@ -1,9 +1,10 @@
 <template>
-  <Card class="base-card" v-bind="$attrs">
-    <template #extra>
-      <slot name="extra"></slot>
-    </template>
-    <Spin :loading="loading">
+  <Spin :loading="loading">
+    <Card class="base-card" v-bind="$attrs">
+      <template #extra>
+        <slot name="extra"></slot>
+      </template>
+
       <Empty v-show="isEmpty">
         <template #image>
           <IconExclamationCircleFill />
@@ -13,8 +14,8 @@
       <div class="base-card-container" v-show="!isEmpty">
         <slot></slot>
       </div>
-    </Spin>
-  </Card>
+    </Card>
+  </Spin>
 </template>
 <script setup lang="ts">
 import { Card } from "@arco-design/web-vue";

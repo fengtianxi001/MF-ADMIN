@@ -3,23 +3,50 @@ import { ref } from "vue";
 
 function useForm() {
   const form = ref();
-  const validate = () => {
+  const validate = (params?: any) => {
     const cache = form.value?.validate;
     if (isFunction(cache)) {
-      return form.value?.validate();
+      return cache(params);
     } else {
       return Promise.resolve([]);
     }
   };
 
-  const reset = () => {
+  const resetFields = (params?: any) => {
     const cache = form.value?.resetFields;
     if (isFunction(cache)) {
-      return form.value?.resetFields();
+      return cache(params);
     } else {
       return Promise.resolve([]);
     }
   };
-  return { form, validate, reset };
+  const validateField = (params?: any) => {
+    const cache = form.value?.validateField;
+    if (isFunction(cache)) {
+      return cache(params);
+    } else {
+      return Promise.resolve([]);
+    }
+  };
+  const clearValidate = (params?: any) => {
+    const cache = form.value?.clearValidate;
+    if (isFunction(cache)) {
+      return cache(params);
+    }
+  };
+  const setFields = (params?: any) => {
+    const cache = form.value?.setFields;
+    if (isFunction(cache)) {
+      return cache(params);
+    }
+  };
+  return {
+    form,
+    validate,
+    resetFields,
+    validateField,
+    clearValidate,
+    setFields,
+  };
 }
 export default useForm;

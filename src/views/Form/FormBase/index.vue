@@ -1,58 +1,58 @@
 <template>
   <div class="page-container form-base">
-    <BaseCard title="基础表单">
+    <BaseCard title="工程特征信息表单" :loading="loading">
       <template #extra>
-        <BaseButtonGroup :data="formButton" style="margin-bottom: 10px" />
+        <BaseButtonGroup :data="formButton" />
       </template>
-      <Spin :loading="loading">
-        <BaseForm
-          class="form"
-          ref="formRef"
-          layout="vertical"
-          :configs="configs"
-          v-model="form"
-          label-width="100px"
-        />
-      </Spin>
+      <BaseForm
+        class="form"
+        ref="form"
+        layout="vertical"
+        :configs="configs"
+        v-model="data"
+        label-width="100px"
+      />
     </BaseCard>
   </div>
 </template>
 <script setup lang="ts">
-import BaseCard from "@/components/BaseCard/index.vue";
-import { useRequest } from "@/hooks";
-import { Message, Spin } from "@arco-design/web-vue";
-import BaseButtonGroup from "@/components/BaseButtonGroup/index.vue";
+import { computed, watchEffect } from "vue";
+import { useRequest, useForm, useBoolean } from "@/hooks";
+import { Message } from "@arco-design/web-vue";
+import { getProjectFeature } from "@/api/Project";
+import { isEqual, cloneDeep } from "lodash";
 
-import BaseForm from "@/components/BaseForm/index.vue";
-import { ref } from "vue";
-const fetchData = () =>
-  new Promise((resolve) =>
-    setTimeout(() => {
-      resolve({});
-    }, 1000)
-  );
-const {
-  data: form,
-  loading,
-  run,
-} = useRequest(fetchData, {
+const { boolean: canSave, setTrue, setFalse } = useBoolean(false);
+const { form, validate, resetFields } = useForm();
+let watcher: any = null;
+const { data, loading, run } = useRequest(getProjectFeature, {
   defaultData: {},
   formatResult: (res) => res,
+  onBefore: () => {
+    watcher && watcher();
+    resetFields();
+  },
+  onFinally: (res) => {
+    const copy = cloneDeep(res);
+    watcher = watchEffect(() =>
+      isEqual(copy, data.value) ? setFalse() : setTrue()
+    );
+  },
 });
 
 // //表单提交
-const formRef = ref();
 const onSubmit = async () => {
-  const error = await formRef.value.validate();
+  const error = await validate();
   !error && Message.success("操作成功");
 };
 
-const formButton = [
+const formButton = computed(() => [
   {
     type: "primary",
     size: "small",
+    disabled: !canSave.value,
     onClick: onSubmit,
-    text: "提交",
+    text: "保存变更",
   },
   {
     type: "primary",
@@ -60,23 +60,11 @@ const formButton = [
     onClick: run,
     text: "重置",
   },
-];
+]);
+
 const configs = [
   {
-    name: "resType",
-    component: "Select",
-    label: "水库类型",
-    required: true,
-    props: {
-      options: [
-        { value: 1, label: "山丘水库" },
-        { value: 2, label: "平原水库" },
-        { value: 3, label: "地址水库" },
-      ],
-    },
-  },
-  {
-    name: "engGrad",
+    name: "level",
     component: "Select",
     label: "工程等别",
     required: true,
@@ -91,25 +79,98 @@ const configs = [
     },
   },
   {
-    name: "engScal",
+    name: "size",
     component: "Select",
     label: "工程规模",
     props: {
       options: [
-        { value: 1, label: "大(1)型" },
-        { value: 2, label: "大(2)型" },
-        { value: 3, label: "中型" },
-        { value: 4, label: "小(1)型" },
-        { value: 5, label: "小(2)型" },
-        { value: 6, label: "其他" },
+        { value: 1, label: "大型" },
+        { value: 2, label: "中型" },
+        { value: 3, label: "小型" },
       ],
     },
   },
   {
-    name: "watShedArea",
+    name: "type",
+    component: "Select",
+    label: "工程类型",
+    props: {
+      options: [
+        { value: 1, label: "大地工程" },
+        { value: 2, label: "结构工程" },
+        { value: 3, label: "地震工程" },
+        { value: 4, label: "水利工程" },
+      ],
+    },
+  },
+  {
+    name: "structure",
+    component: "Select",
+    label: "工程结构",
+    props: {
+      options: [
+        { value: 1, label: "线构材" },
+        { value: 2, label: "面构材" },
+        { value: 3, label: "空间构材" },
+      ],
+    },
+  },
+  {
+    name: "seismicGrade",
     component: "InputNumber",
-    label: "流域面积(km^2)",
-
+    label: "工程抗震等级",
+    props: {
+      max: 15,
+      min: 0,
+      precision: 0,
+    },
+  },
+  {
+    name: "industry",
+    component: "Select",
+    label: "工程领域",
+    props: {
+      options: [
+        { value: 1, label: "公共设施" },
+        { value: 2, label: "社会性基础设施" },
+      ],
+    },
+  },
+  {
+    name: "area",
+    component: "InputNumber",
+    label: "工程面积(平方公里)",
+    props: {
+      max: Math.pow(10, 7) - 1,
+      min: 0,
+      precision: 2,
+    },
+  },
+  {
+    name: "price",
+    component: "InputNumber",
+    label: "工程造价(万元)",
+    props: {
+      max: Math.pow(10, 7) - 1,
+      min: 0,
+      precision: 2,
+    },
+  },
+  {
+    name: "baseType",
+    component: "Select",
+    label: "工程地基特性",
+    props: {
+      options: [
+        { value: 0, label: "天然地基" },
+        { value: 1, label: "人工地基" },
+      ],
+    },
+  },
+  {
+    name: "baseHeight",
+    component: "InputNumber",
+    label: "工程地基厚度(米)",
     props: {
       max: Math.pow(10, 7) - 1,
       min: 0,
@@ -118,142 +179,18 @@ const configs = [
     },
   },
   {
-    name: "uppLevFlco",
-    component: "InputNumber",
-    label: "防洪高水位(m)",
-
+    name: "monitorType",
+    label: "工程监测方式",
+    component: "Select",
     props: {
-      max: Math.pow(10, 5) - 1,
-      min: 0,
-      style: { width: "100%" },
-      precision: 3,
+      options: [
+        { value: 0, label: "传感器" },
+        { value: 1, label: "人工巡检" },
+      ],
     },
   },
   {
-    name: "normWatLev",
-    component: "InputNumber",
-    label: "正常蓄水位(m)",
-
-    props: {
-      max: Math.pow(10, 5) - 1,
-      min: 0,
-      style: { width: "100%" },
-      precision: 3,
-    },
-  },
-  {
-    name: "normPoolStagArea",
-    component: "InputNumber",
-    label: "应水面面积(km^2)",
-    props: {
-      max: Math.pow(10, 4) - 1,
-      min: 0,
-      style: { width: "100%" },
-      precision: 2,
-    },
-  },
-  {
-    name: "normPoolStagCap",
-    component: "InputNumber",
-    label: "库容(10m^3)",
-    props: {
-      max: Math.pow(10, 7) - 1,
-      min: 0,
-      style: { width: "100%" },
-      precision: 2,
-    },
-  },
-  {
-    name: "flLowLimLev",
-    component: "InputNumber",
-    label: "防洪限制水位(m)",
-    props: {
-      max: Math.pow(10, 5) - 1,
-      min: 0,
-      style: { width: "100%" },
-      precision: 3,
-    },
-  },
-  {
-    name: "flLowLimLevCap",
-    component: "InputNumber",
-    label: "防洪限制库容(10^4m^3)",
-
-    props: {
-      max: Math.pow(10, 7) - 1,
-      min: 0,
-      style: { width: "100%" },
-      precision: 2,
-    },
-  },
-  {
-    name: "deadLev",
-    component: "InputNumber",
-    label: "死水位(m)",
-    props: {
-      max: Math.pow(10, 5) - 1,
-      min: 0,
-      style: { width: "100%" },
-      precision: 3,
-    },
-  },
-  {
-    name: "totCap",
-    component: "InputNumber",
-    label: "总库容(10^4m^3)",
-    props: {
-      max: Math.pow(10, 7) - 1,
-      min: 0,
-      style: { width: "100%" },
-      precision: 2,
-    },
-  },
-  {
-    name: "benResCap",
-    component: "InputNumber",
-    label: "兴利库容(10^4m^3)",
-    props: {
-      max: Math.pow(10, 7) - 1,
-      min: 0,
-      style: { width: "100%" },
-      precision: 2,
-    },
-  },
-  {
-    name: "deadCap",
-    component: "InputNumber",
-    label: "死库容(10^4m^3)",
-    props: {
-      max: Math.pow(10, 7) - 1,
-      min: 0,
-      style: { width: "100%" },
-      precision: 2,
-    },
-  },
-  {
-    name: "storFlCap",
-    component: "InputNumber",
-    label: "调洪库容(10^4m^3)",
-    props: {
-      max: Math.pow(10, 7) - 1,
-      min: 0,
-      style: { width: "100%" },
-      precision: 2,
-    },
-  },
-  {
-    name: "flcoCap",
-    component: "InputNumber",
-    label: "防洪库容(10^4m^3)",
-    props: {
-      max: Math.pow(10, 7) - 1,
-      min: 0,
-      style: { width: "100%" },
-      precision: 2,
-    },
-  },
-  {
-    name: "engStat",
+    name: "status",
     component: "Select",
     label: "工程建设情况",
     props: {
@@ -261,6 +198,27 @@ const configs = [
         { value: 0, label: "在建" },
         { value: 1, label: "已建" },
       ],
+    },
+  },
+  {
+    name: "certification",
+    label: "工程施工单位资质",
+    component: "Select",
+    props: {
+      options: [
+        { value: 0, label: "国营单位" },
+        { value: 1, label: "私营企业" },
+      ],
+    },
+  },
+  {
+    name: "maintOutlay",
+    label: "平均年运行维护成本(万元)",
+    component: "InputNumber",
+    props: {
+      max: Math.pow(10, 7) - 1,
+      min: 0,
+      precision: 2,
     },
   },
   {
@@ -274,7 +232,7 @@ const configs = [
     },
   },
   {
-    name: "compDate",
+    name: "endDate",
     component: "DatePicker",
     label: "建成时间",
     props: {
@@ -284,7 +242,7 @@ const configs = [
     },
   },
   {
-    name: "admDep",
+    name: "department",
     component: "Select",
     label: "归口管理部门",
     props: {
