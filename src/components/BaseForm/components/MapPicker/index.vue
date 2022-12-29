@@ -45,7 +45,7 @@ const onEmpty = () => {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 999;
+    z-index: 2;
     padding-left: 12px;
     padding-top: 4px;
     color: #8f96a1;

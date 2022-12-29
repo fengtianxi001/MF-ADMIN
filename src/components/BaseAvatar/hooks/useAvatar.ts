@@ -8,7 +8,7 @@ function useAvatar(name: string, size: number = 32) {
       hash ^= (hash << 5) + ch + (hash >> 2);
       index--;
     }
-    return '#' + (hash & 0x7fffffff).toString(16).slice(0, 6);
+    return "#" + (hash & 0x7fffffff).toString(16).slice(0, 6);
   };
   const backgroundColor = stringColor(name);
   const firstLetter = name.charAt(0).toUpperCase();

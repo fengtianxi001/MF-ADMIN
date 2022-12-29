@@ -1,5 +1,5 @@
-import { isFunction } from 'lodash';
-import { ref, watch, type WatchStopHandle } from 'vue';
+import { isFunction } from "lodash";
+import { ref, watch, type WatchStopHandle } from "vue";
 interface OptionsType {
   formmatter?: (data: any) => any;
   manual?: boolean;
@@ -25,12 +25,12 @@ function useTable<DataType>(service: any, options?: OptionsType) {
     isFunction(service) &&
       service(params).then((response: any) => {
         if (options && isFunction(options?.formmatter)) {
-          const { data: dataSource, pagination: paginationSource } = options.formmatter(response);
+          const { data: dataSource, pagination: paginationSource } =
+            options.formmatter(response);
           dataSource.value = dataSource;
           pagination.value = paginationSource;
         } else {
           //客制化部分
-          console.log('response', response);
           dataSource.value = response.data;
           pagination.value = {
             current: response.current,

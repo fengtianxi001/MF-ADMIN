@@ -53,7 +53,9 @@ function useMap(element: Ref<HTMLElement | null>) {
       attributionControl: false,
     });
     control = new L.Draw.Rectangle(map.value);
-    tile.value = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png");
+    tile.value = L.tileLayer(
+      "https://webst01.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}"
+    );
     tile.value.addTo(map.value);
     // navigator.geolocation.getCurrentPosition((position) => {
     //   if (position.coords) {

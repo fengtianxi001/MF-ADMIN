@@ -1,6 +1,6 @@
-import L from 'leaflet';
-import * as turf from '@turf/turf';
-import 'leaflet/dist/leaflet.css';
+import L from "leaflet";
+import * as turf from "@turf/turf";
+import "leaflet/dist/leaflet.css";
 import {
   shallowRef,
   ref,
@@ -12,7 +12,7 @@ import {
   createVNode,
   render,
   reactive,
-} from 'vue';
+} from "vue";
 
 export interface MapConfigsType {
   center: [number, number];
@@ -37,15 +37,15 @@ function useMap(element: Ref<HTMLElement | null>, configs: MapConfigsType) {
   let container: HTMLDivElement;
   const initContainer = () => {
     const parent = element.value as HTMLElement;
-    const cache = ['relative', 'absolute', 'fixed'];
+    const cache = ["relative", "absolute", "fixed"];
     if (!cache.includes(parent.style.position)) {
-      parent.style.position = 'relative';
+      parent.style.position = "relative";
     }
-    const container = document.createElement('div');
-    container.className = 'map-container';
-    container.style.position = 'relative';
-    container.style.width = '100%';
-    container.style.height = '100%';
+    const container = document.createElement("div");
+    container.className = "map-container";
+    container.style.position = "relative";
+    container.style.width = "100%";
+    container.style.height = "100%";
     parent.appendChild(container);
     return container;
   };
@@ -57,7 +57,7 @@ function useMap(element: Ref<HTMLElement | null>, configs: MapConfigsType) {
     initCoordPicker();
   };
   const initCoordPicker = () => {
-    map.value!.on('mousemove', (e: any) => {
+    map.value!.on("mousemove", (e: any) => {
       const { lat, lng } = e.latlng;
       coordPicker.lng = lng;
       coordPicker.lat = lat;
@@ -98,7 +98,7 @@ function useMap(element: Ref<HTMLElement | null>, configs: MapConfigsType) {
   ) => {
     const { component, componentProps, coordinates } = componentMarkerProps;
     const instance = createVNode(component, componentProps);
-    const template = document.createElement('template');
+    const template = document.createElement("template");
     render(instance, template);
     const html = instance.el as HTMLElement;
     const icon = L.divIcon({

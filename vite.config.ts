@@ -1,16 +1,19 @@
 import { fileURLToPath, URL } from "node:url";
-
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
-const mdPlugin = require("vite-plugin-markdown"); // 需要通过commenJs方式引用
+import Components from "unplugin-vue-components/vite";
+
 export default defineConfig({
   base: "./",
   plugins: [
     vue(),
     vueJsx(),
-    mdPlugin.plugin({
-      mode: ["html"],
+    Components({
+      resolvers: [],
+      dirs: ["src/components"],
+      directoryAsNamespace: true,
+      dts: "types/components.d.ts",
     }),
   ],
   resolve: {
@@ -24,7 +27,6 @@ export default defineConfig({
         additionalData: `
             @use "@/assets/styles/mixins.scss" as *;
             @use "@/assets/styles/variable" as *;
-            
           `,
       },
       less: {

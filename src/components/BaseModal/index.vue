@@ -10,19 +10,23 @@
     @ok="onOk"
     @cancel="onClose"
   >
-    <slot></slot>
+    <Spin :loading="loading">
+      <slot></slot>
+    </Spin>
   </Modal>
 </template>
 <script setup lang="ts">
-import { useVisible } from '@/hooks';
-import { Modal } from '@arco-design/web-vue';
-import { isFunction } from 'lodash';
+import { useVisible } from "@/hooks";
+import { Modal } from "@arco-design/web-vue";
+import { isFunction } from "lodash";
+import { Spin } from "@arco-design/web-vue";
 const { visible, hide } = useVisible(true);
 interface PropsType {
   onBeforeConfirm?: () => Promise<boolean>;
   onConfirm?: () => void;
   onCancel?: () => void;
   resolve?: (value: any) => void;
+  loading?: boolean;
 }
 const props = defineProps<PropsType>();
 const onOk = async () => {

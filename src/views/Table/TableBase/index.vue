@@ -1,13 +1,13 @@
 <template>
   <div class="page-container">
-    <BaseCard title="基本表格">
+    <BaseCard title="工程项目列表">
       <BaseTableFilter
         v-model="search"
-        label-width="60px"
+        label-width="70px"
         :configs="tableFilter"
         :query="run"
       />
-      <BaseButtonGroup :data="tableButton" style="margin-bottom: 10px" />
+      <BaseButtonGroup :data="tableButton" />
       <BaseTable
         v-model:selectedKeys="selected"
         row-key="id"
@@ -23,61 +23,73 @@
 <script setup lang="tsx">
 import { size } from "lodash";
 import { useTable } from "@/hooks";
+import { getProjectList } from "@/api/Project";
+import { Tag, Badge } from "@arco-design/web-vue";
 import { computed, reactive } from "vue";
-import { Tag } from "@arco-design/web-vue";
-import { IconBranch } from "@arco-design/web-vue/es/icon";
-import { BreakdownPage, type BreakdownPageType } from "@/api/Breakdown";
-import type { TableColumnDataType } from "@/hooks/useTable/types";
-import BaseCard from "@/components/BaseCard/index.vue";
-import BaseButtonGroup from "@/components/BaseButtonGroup/index.vue";
-import BaseTableFilter from "@/components/BaseTableFilter/index.vue";
-import BaseTable from "@/components/BaseTable/index.vue";
-import BaseUserCard from "@/components/BaseUserCard/index.vue";
-import BaseConfirm from "@/components/BaseConfirm";
+import ProjectForm from "./ProjectForm.vue";
 import Modal from "@/components/BaseModal";
-import Edit from "./Edit.vue";
-
+import BaseConfirm from "@/components/BaseConfirm";
+import BaseButtonGroup from "@/components/BaseButtonGroup/index.vue";
+import ProjectProfile from "./ProjectProfile.vue";
+import BaseUserCard from "@/components/BaseUserCard/index.vue";
 //表格筛选配置项
 const tableFilter = reactive([
   {
-    name: "theme",
+    name: "name",
     component: "Input",
-    label: "主题名称",
+    label: "工程名称",
     formItemProps: {
       labelColFlex: "100px",
     },
   },
   {
-    name: "order",
-    component: "Input",
-    label: "工单号",
-  },
-  {
-    name: "sender",
+    name: "principalId",
     component: "UserPicker",
-    label: "发送人",
+    label: "工程负责人",
   },
   {
-    name: "node",
+    name: "code",
+    component: "Input",
+    label: "工程编码",
+  },
+  {
+    name: "type",
     component: "Select",
-    label: "流程节点",
+    label: "工程类型",
     props: {
       options: [
         {
-          label: "节点1",
+          label: "土木工程",
           value: "1",
         },
         {
-          label: "节点2",
+          label: "水利工程",
           value: "2",
         },
       ],
     },
   },
   {
-    name: "createTimeRange",
+    name: "status",
+    component: "Select",
+    label: "工程状态",
+    props: {
+      options: [
+        {
+          label: "正常",
+          value: 1,
+        },
+        {
+          label: "异常",
+          value: 0,
+        },
+      ],
+    },
+  },
+  {
+    name: "createTime",
     component: "RangePicker",
-    label: "时间范围",
+    label: "建档时间",
     props: {
       format: "YYYY-MM-DD",
       placeholder: ["开始时间", "结束时间"],
@@ -96,45 +108,63 @@ const tableButton = computed(() => [
   {
     type: "primary",
     onClick: tableOperate.onCreate,
-    text: "新增报告",
+    text: "新增工程",
   },
 ]);
 //表格列配置项
-const tableColumns: TableColumnDataType<BreakdownPageType>[] = [
+const tableColumns = [
   {
-    title: "主题",
+    title: "工程简介",
     width: 200,
-    dataIndex: "theme",
+    render: (record: any) => {
+      const data = {
+        name: record.name,
+        picture: record.picture,
+        description: record.address,
+      };
+      return <ProjectProfile data={data} />;
+    },
   },
   {
-    title: "工单号",
-    dataIndex: "order",
+    title: "工程负责人",
+    width: 150,
+    render: (record: any) => <BaseUserCard data={record.principal} />,
   },
   {
-    title: "发送人",
-    render: ({ record }) => <BaseUserCard data={record.sender}></BaseUserCard>,
+    title: "工程编码",
+    align: "center",
+    render: (record: any) => <Tag color="arcoblue">{record.code}</Tag>,
   },
   {
-    title: "流程节点",
-    dataIndex: "node",
-    render: ({ record }) => (
-      <Tag>
-        {{
-          icon: <IconBranch />,
-          default: record.node,
-        }}
-      </Tag>
-    ),
+    title: "工程类型",
+    align: "center",
+    dataIndex: "type",
   },
   {
-    title: "发送时间",
+    title: "所属机构",
+    align: "center",
+    dataIndex: "organization",
+  },
+  {
+    title: "工程状态",
+    align: "center",
+    dataIndex: "status",
+    render: (record: any) => {
+      const status = record.status === 1 ? "success" : "normal";
+      const text = record.status === 1 ? "正常" : "异常";
+      return <Badge status={status} text={text} />;
+    },
+  },
+  {
+    title: "建档时间",
+    align: "center",
     dataIndex: "createTime",
   },
   {
     title: "操作",
     align: "center",
     width: 150,
-    render: ({ record }) => {
+    render: (record: any) => {
       const configs = [
         {
           type: "text",
@@ -154,17 +184,13 @@ const tableColumns: TableColumnDataType<BreakdownPageType>[] = [
 ];
 //获取表格数据
 const { selected, loading, dataSource, search, pagination, run } =
-  useTable<BreakdownPageType>(BreakdownPage);
+  useTable(getProjectList);
 //表格数据操作
 const tableOperate = {
   onDelect: (ids: Array<string>) => {
-    const content =
-      size(ids) > 1
-        ? `确定要删除这${size(ids)}条报告吗？`
-        : "确定要删除这条报告吗？";
     BaseConfirm({
       title: "确认删除",
-      content,
+      content: `确定要删除这${size(ids)}条报告吗?`,
       onBeforeOk: async () => {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         return true;
@@ -172,11 +198,11 @@ const tableOperate = {
     });
   },
   onCreate: async () => {
-    const result = await Modal(Edit, { mode: "create" });
+    const result = await Modal(ProjectForm);
     result && run();
   },
   onEdit: async (record: any) => {
-    const result = await Modal(Edit, { mode: "edit", record });
+    const result = await Modal(ProjectForm, { id: record.id });
     result && run();
   },
 };

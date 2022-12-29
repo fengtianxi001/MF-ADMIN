@@ -21,13 +21,13 @@
   </Form>
 </template>
 <script setup lang="ts">
-import { Form, FormItem } from '@arco-design/web-vue';
-import * as AntComponents from '@arco-design/web-vue';
-import CustomComponents from './components';
-import type { BaseFormConfigType } from './types';
-import { forEach } from 'lodash';
-import { computed, onUnmounted, ref } from 'vue';
-
+import { Form, FormItem } from "@arco-design/web-vue";
+import * as AntComponents from "@arco-design/web-vue";
+import CustomComponents from "./components";
+import type { BaseFormConfigType } from "./types";
+import { forEach } from "lodash";
+import { computed, onUnmounted, ref } from "vue";
+import { Spin } from "@arco-design/web-vue";
 const components = {
   ...AntComponents,
   ...CustomComponents,
@@ -43,8 +43,8 @@ const props = defineProps<PropsType>();
 
 const createPlaceholder = (config: BaseFormConfigType) => {
   if (config?.props?.placeholder) return config.props.placeholder;
-  const done = config.component === 'Input' ? '输入' : '选择';
-  return `请${done}${config.label?.replace(':', '')}`;
+  const done = config.component === "Input" ? "输入" : "选择";
+  return `请${done}${config.label?.replace(":", "")}`;
 };
 const formRef = ref();
 const form: Record<string, any> = computed({

@@ -1,5 +1,12 @@
 <template>
-  <Table v-bind="{ ...$attrs, ...attrs }" :pagination="false" :bordered="false"></Table>
+  <Table
+    v-bind="{ ...$attrs, ...attrs }"
+    :columns="tableColumns"
+    :pagination="false"
+    :bordered="false"
+  >
+  </Table>
+
   <Pagination
     v-if="pagination"
     class="pagination"
@@ -10,8 +17,8 @@
   />
 </template>
 <script setup lang="ts">
-import { Table, Pagination } from '@arco-design/web-vue';
-import { computed, reactive } from 'vue';
+import { Table, Pagination } from "@arco-design/web-vue";
+import { computed, reactive } from "vue";
 interface PropsType {
   pagination?: {
     current: number;
@@ -19,6 +26,7 @@ interface PropsType {
     total: number;
   };
   selection?: boolean;
+  columns: any[];
 }
 const props = defineProps<PropsType>();
 
@@ -26,14 +34,22 @@ const attrs = computed(() => {
   const cache: any = {};
   if (props.selection) {
     cache.rowSelection = reactive({
-      type: 'checkbox',
+      type: "checkbox",
       showCheckedAll: true,
       onlyCurrent: false,
     });
   }
-  console.log('cache', cache);
   return cache;
 });
+const tableColumns = computed(() =>
+  props.columns.map((column) => {
+    const render = column.render;
+    if (render) {
+      column.render = ({ record }: any) => render(record);
+    }
+    return column;
+  })
+);
 </script>
 <style lang="scss" scoped>
 .pagination {
