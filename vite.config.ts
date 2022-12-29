@@ -6,6 +6,9 @@ import Components from "unplugin-vue-components/vite";
 
 export default defineConfig({
   base: "./",
+  build: {
+    outDir: "./docs",
+  },
   plugins: [
     vue(),
     vueJsx(),
