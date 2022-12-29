@@ -4,11 +4,10 @@
   </Modal>
 </template>
 <script setup lang="ts">
+import { Message } from "@arco-design/web-vue";
 import { computed, onMounted, ref } from "vue";
-import type { LocationFenceListType } from "@/api/Location/types";
 import Modal from "@/components/BaseModal/index.vue";
 import BaseForm from "@/components/BaseForm/index.vue";
-import { Message } from "@arco-design/web-vue";
 
 interface PropsType {
   record?: any;

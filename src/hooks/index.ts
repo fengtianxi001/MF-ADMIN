@@ -16,3 +16,4 @@ export { default as useContextmenu } from "./useContextmenu";
 export { default as useMap } from "./useMap";
 export { default as useTheme } from "./useTheme";
 export { default as useGuide } from "./useGuide";
+export { default as useThree } from "./useThree";

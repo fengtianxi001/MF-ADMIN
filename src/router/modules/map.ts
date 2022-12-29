@@ -1,4 +1,4 @@
-import { IconApps, IconDragDot } from "@arco-design/web-vue/es/icon";
+import { IconApps } from "@arco-design/web-vue/es/icon";
 import { RouterView } from "vue-router";
 import type { routesType } from "../types";
 

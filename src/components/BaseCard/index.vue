@@ -3,7 +3,6 @@
     <template #extra>
       <slot name="extra"></slot>
     </template>
-
     <slot></slot>
   </Card>
 </template>
@@ -21,6 +20,7 @@ import { Card } from "@arco-design/web-vue";
   }
   :deep(.arco-card-body) {
     padding: 0 20px 20px;
+    height: calc(100% - 77px);
   }
 }
 </style>

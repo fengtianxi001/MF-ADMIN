@@ -1,4 +1,4 @@
-import { IconApps } from "@arco-design/web-vue/es/icon";
+import { IconApps, IconDragDot } from "@arco-design/web-vue/es/icon";
 import { RouterView } from "vue-router";
 import type { routesType } from "../types";
 
@@ -18,18 +18,18 @@ const three: routesType[] = [
         name: "threeBase",
         meta: {
           locale: "基础场景",
-          icon: IconApps,
+          icon: IconDragDot,
         },
-        component: () => import("@/views/Camera/Cameras/index.vue"),
+        component: () => import("@/views/Three/ThreeBase/index.vue"),
       },
       {
         path: "/three/model",
         name: "threeModel",
         meta: {
           locale: "模型导入",
-          icon: IconApps,
+          icon: IconDragDot,
         },
-        component: () => import("@/views/Camera/Cameras/index.vue"),
+        component: () => import("@/views/Three/ThreeModel/index.vue"),
       },
     ],
   },
