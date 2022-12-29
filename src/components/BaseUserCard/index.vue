@@ -8,7 +8,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import BaseAvatar from '@/components/BaseAvatar/index.vue';
+import BaseAvatar from "@/components/BaseAvatar/index.vue";
 interface PropsType {
   data: {
     name: string;
