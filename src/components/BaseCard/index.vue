@@ -38,7 +38,7 @@ const isEmpty = computed(() => props.empty === true);
     width: 100%;
     display: grid;
     grid-gap: 12px;
-    height: calc(100% - 77px);
+    height: 100%;
   }
   :deep(.arco-card-header) {
     border: none;
@@ -47,6 +47,7 @@ const isEmpty = computed(() => props.empty === true);
   }
   :deep(.arco-card-body) {
     padding: 0 20px 20px;
+    height: calc(100% - 77px);
     // height: 100%;
   }
 }

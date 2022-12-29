@@ -44,6 +44,7 @@ const onEmpty = () => {
 </script>
 <style lang="scss" scoped>
 .color-picker {
+  box-sizing: border-box;
   position: relative;
   border-radius: var(--border-radius-small);
   background-color: var(--color-fill-2);
