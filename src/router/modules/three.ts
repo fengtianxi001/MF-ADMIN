@@ -2,7 +2,7 @@ import { IconApps, IconDragDot } from "@arco-design/web-vue/es/icon";
 import { RouterView } from "vue-router";
 import type { routesType } from "../types";
 
-const three: routesType[] = [
+export default [
   {
     path: "/three",
     name: "three",
@@ -33,6 +33,4 @@ const three: routesType[] = [
       },
     ],
   },
-];
-
-export default three;
+] as routesType[];

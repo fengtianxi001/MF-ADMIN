@@ -1,8 +1,8 @@
-import { IconApps, IconDragDot } from "@arco-design/web-vue/es/icon";
+import { IconApps } from "@arco-design/web-vue/es/icon";
 import { RouterView } from "vue-router";
 import type { routesType } from "../types";
 
-const form: routesType[] = [
+export default [
   {
     path: "/form",
     name: "form",
@@ -23,6 +23,4 @@ const form: routesType[] = [
       },
     ],
   },
-];
-
-export default form;
+] as routesType[];

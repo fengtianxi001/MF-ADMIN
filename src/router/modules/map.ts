@@ -2,7 +2,7 @@ import { IconApps } from "@arco-design/web-vue/es/icon";
 import { RouterView } from "vue-router";
 import type { routesType } from "../types";
 
-const map: routesType[] = [
+export default [
   {
     path: "/map",
     name: "map",
@@ -24,6 +24,4 @@ const map: routesType[] = [
       },
     ],
   },
-];
-
-export default map;
+] as routesType[];
