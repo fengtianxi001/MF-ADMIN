@@ -2,16 +2,6 @@
   <div class="page-container">
     <div class="page-content">
       <div class="main">
-        <div class="info">
-          <h1>MF-THREE</h1>
-          <h2>一个WEB管理系统模板</h2>
-          <h3>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Unde est
-            non sunt facilis earum nisi, quam tempora hic labore quas minus
-            impedit consectetur natus modi aspernatur alias temporibus, officiis
-            et?
-          </h3>
-        </div>
         <img :src="image" alt="image" />
       </div>
     </div>

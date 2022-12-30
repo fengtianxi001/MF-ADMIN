@@ -1,0 +1,1 @@
+import{bX as r,r as u}from"./index-d074fa50.js";function d(s=!1,e=0){const{boolean:a,setFalse:o,setTrue:i}=r(s),n=u(0);return{loading:a,openLoading:()=>{i(),n.value=new Date().getTime()},closeLoading:()=>{const t=new Date().getTime()-n.value;return t<e?setTimeout(o,e-t):o()}}}export{d as u};
