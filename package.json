@@ -31,11 +31,11 @@
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.191",
-    "@types/three": "^0.146.0",
     "@rushstack/eslint-patch": "^1.1.4",
+    "@types/lodash": "^4.14.191",
     "@types/node": "^18.11.12",
     "@types/nprogress": "^0.2.0",
+    "@types/three": "^0.146.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.0",
     "@vue/eslint-config-prettier": "^7.0.0",

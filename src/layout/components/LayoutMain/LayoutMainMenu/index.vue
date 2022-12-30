@@ -8,13 +8,13 @@
     auto-open
     @menu-item-click="onMenuItemClick"
   >
-    <LayoutMainMenuItem :routes="MENU_LIST" />
+    <LayoutMainMenuItem :routes="asyncRoutes" />
   </a-menu>
 </template>
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import MENU_LIST from "@/router/modules";
+import { asyncRoutes } from "@/router";
 import LayoutMainMenuItem from "./LayoutMainMenuItem";
 
 const route = useRoute();
