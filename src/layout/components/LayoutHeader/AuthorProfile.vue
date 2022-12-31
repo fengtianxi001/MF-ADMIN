@@ -1,5 +1,5 @@
 <template>
-  <a-dropdown position="bl" popup-container="#app" class="author-profile-wrap">
+  <a-dropdown position="bl" class="author-profile-wrap">
     <img class="author-avatar" alt="avatar" :src="user.info.avatar" />
     <template #content>
       <a-doption @click="() => open(LINKS.repo)">

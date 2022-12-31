@@ -1,6 +1,7 @@
 import { computed, ref } from "vue";
 import { defineStore } from "pinia";
 import { findIndex, remove } from "lodash";
+import { useLocalStorageState } from "@/hooks";
 import router from "@/router";
 import type { RouteLocationNormalized } from "vue-router";
 
@@ -12,7 +13,10 @@ interface TabsType {
 
 export const useTabs = defineStore("tabs", () => {
   const home = { title: "首页", path: "/welcome", fixed: true };
-  const tabs = ref<TabsType[]>([home]);
+  const white = ["/login", "/404", "/welcome"];
+  const tabs = useLocalStorageState<TabsType[]>("tabs", {
+    defaultValue: [home],
+  });
   const current = computed<TabsType>(() => ({
     title: <string>router.currentRoute.value.meta.locale,
     path: router.currentRoute.value.path,
@@ -21,7 +25,7 @@ export const useTabs = defineStore("tabs", () => {
 
   //新增标签
   const tabAppend = (tab: RouteLocationNormalized) => {
-    if (tab.path === home.path) return void 0;
+    if (white.includes(tab.path)) return void 0;
     const isExit = tabs.value.some((item) => item.path === tab.path);
     if (isExit) return void 0;
     tabs.value.push({

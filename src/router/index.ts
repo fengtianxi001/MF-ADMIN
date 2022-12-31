@@ -2,9 +2,10 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import Layout from "@/layout/index.vue";
 import { reduce } from "loadsh";
 
+const modules = import.meta.glob("./modules/*.ts", { eager: true });
 //动态路由表
 export const asyncRoutes = reduce(
-  import.meta.glob("./modules/*.ts", { eager: true }),
+  modules,
   (prev, cur) => [...prev, ...cur.default],
   []
 );
@@ -20,6 +21,15 @@ const syncRoutes = {
     },
     component: () => import("@/views/Welcome/index.vue"),
   },
+  login: {
+    path: "/login",
+    name: "login",
+    meta: {
+      locale: "登录",
+      icon: "icon-apps",
+    },
+    component: () => import("@/views/Login/index.vue"),
+  },
 };
 
 const router = createRouter({
@@ -32,6 +42,7 @@ const router = createRouter({
       redirect: "/welcome",
       children: [syncRoutes.home, ...asyncRoutes],
     },
+    syncRoutes.login,
   ],
 });
 

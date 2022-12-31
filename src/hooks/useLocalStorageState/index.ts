@@ -47,7 +47,7 @@ function useLocalStorageState<T>(key: string, options?: Options<T>) {
       deep: true,
     }
   );
-  return { state };
+  return state;
 }
 
 export default useLocalStorageState;

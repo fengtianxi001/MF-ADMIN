@@ -4,8 +4,8 @@
       <BaseBrand />
       <div class="header-operate">
         <div
-          v-for="(item, index) in OPERATE_LIST"
-          :key="index"
+          v-for="item in OPERATE_LIST"
+          :key="item.title"
           class="header-operate-item"
           @click="item.onClick"
         >
@@ -30,14 +30,17 @@ const { guideStart } = useGuide(guideStep);
 
 const OPERATE_LIST = reactive([
   {
+    title: "切换主题",
     icon: themeIcon,
     onClick: themeToggle,
   },
   {
+    title: "全屏",
     icon: fullscreenIcon,
     onClick: fullscreenToggle,
   },
   {
+    title: "使用指南",
     icon: IconQuestion,
     onClick: guideStart,
   },
