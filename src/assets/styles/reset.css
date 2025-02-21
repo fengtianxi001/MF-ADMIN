@@ -1,0 +1,24 @@
+.arco-alert-info .arco-alert-content {
+  color: rgb(var(--primary-6));
+}
+.arco-tabs-nav-type-capsule .arco-tabs-nav-tab:not(.arco-tabs-nav-tab-scroll) {
+  justify-content: unset;
+}
+.arco-select-view-single.arco-select-view-disabled {
+  color: unset;
+}
+.arco-picker input[disabled] {
+  -webkit-text-fill-color: unset;
+  color: unset;
+}
+.arco-picker-disabled {
+  color: unset;
+  &:hover {
+    color: unset;
+  }
+}
+.arco-input-wrapper .arco-input[disabled],
+.arco-input-wrapper.arco-input-disabled {
+  color: unset;
+  -webkit-text-fill-color: unset;
+}

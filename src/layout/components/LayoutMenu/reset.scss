@@ -1,0 +1,18 @@
+.arco-menu-title {
+  font-weight: bold !important;
+  color: #fff !important;
+  .arco-menu-icon,
+  .arco-icon {
+    color: #fff !important;
+  }
+}
+.arco-menu-item.arco-menu-selected {
+  background-color: rgba(var(--primary-6), 1) !important;
+}
+.arco-menu-inline-header.arco-menu-selected {
+  color: #fff !important;
+  .arco-menu-icon,
+  .arco-icon {
+    color: #fff !important;
+  }
+}
