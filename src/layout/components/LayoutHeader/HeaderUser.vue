@@ -1,6 +1,6 @@
 <template>
   <div class="header-user">
-    <img src="../../assets/avatar.awebp" alt="" />
+    <img src="../../assets/avatar.png" alt="" />
   </div>
 </template>
 <script setup lang="ts">
